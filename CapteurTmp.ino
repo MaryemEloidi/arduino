@@ -4,12 +4,12 @@
 ensuite il formate ces données sous la forme d'un fichier json et affiche cela dans le log d'arduino*/
 
 
-//declaration des variables constantes
-const int tmpPin = A0; //pin connecté à la sortie digitale du capteur
-const float baselineTemp = 20.0; //la température de base
-const int lightPin = A1;
+//declaration des variables constantes pour les capteurs
+const int tmpPin = A0; //pin connecté à la sortie digitale du capteur de température
+const int lightPin = A1; //pin connecté à la sortie digitale du capteur de lumière
+
 StaticJsonBuffer<200> jsonBuffer;
-//le setup
+
 void setup(){
   Serial.begin(9600);// on initialise la liaison serie à 9600 bauds
 }
@@ -18,8 +18,6 @@ void setup(){
 void loop(){
   int sensorTmpVal = analogRead(tmpPin);//dans la variable locale: sensorVal, mettre la valeur retournée par la fonction analogRead() qui prend en argument le pin du capteur et retourne une repésentation de son voltage
   int sensorlightReading = analogRead(lightPin); //reading light signal
-  //Serial.print("la valeur du capteur: tmp ");//affichage de la chaine "la valeur du capteur"
-  //Serial.print(sensorTmpVal);//afficher la valeur de sensorVal (le voltage récupéré)
   float voltage = (sensorTmpVal/1024.0) * 5.0;//recupérer le vrai voltage du pin avec une formule mathématique
   //Serial.print(", Volts: ");
   //Serial.print(voltage);
@@ -40,15 +38,18 @@ void loop(){
   } else {
     light = "très lumineux";
   }
+  JsonObject& donnees = jsonBuffer.createObject();
+  JsonArray& array = jsonBuffer.createArray();
   JsonObject& Tmp = jsonBuffer.createObject();
   JsonObject& Slight = jsonBuffer.createObject();
   Tmp["Type"] = "Temperature";
   Tmp["Valeur"] = temperature;
   Slight["type"] = "lumiere";
   Slight["valeur"] = light;
-  Tmp.printTo(Serial);
-  Slight.printTo(Serial);
-  
-  delay(5000);
+  array.add(Tmp);
+  array.add(Slight);
+  donnees["Donnees recuperees"] = array; 
+  donnees.prettyPrintTo(Serial);// pour un afffichage indenté lisible sinon utiliser printTo()
+  delay(5000000);
 }
 
