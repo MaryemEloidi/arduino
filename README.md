@@ -1,0 +1,3 @@
+# Développement d'une solution Arduino modulaire pour collecter des mesures à partir de différents capteurs (en cours) 
+##Introduction
+###### Ce projet vise à développer une solution arduino modulaire qui va permettre de collecter des mesures de la qualité de l'air à partir de différents capteurs. Dans un premier temps le programme va utiliser des capteurs basiques de température et de luminisité. On va d'abord récupérer les données puis les formater sous la forme d’une map (clé/valeur) et afficher leurs contenu dans le log d'Arduino. Et au final il faut envoyer les données vers une base de données du type InfluxDB
