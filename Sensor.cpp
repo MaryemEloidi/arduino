@@ -1,12 +1,23 @@
-#include "header.h"
+#include "arduino.h"
+#include "Sensor.h"
 
+Sensor::Sensor(int pin, char* type, int(* convertRawValue)(int)){
+      _pin = pin;
+      _type = type;
+      _convertRawValue = convertRawValue;
+    }
+struct Value* Sensor::readSensor(){
+  int analogpin = analogRead(_pin);
+  struct Value* value = (struct Value*)malloc(sizeof(struct Value));
+  value->typeSensor=_type;
+  value->value= _convertRawValue(analogpin);
 
-Sensor* declareSensor(int pin, char* type, int (* convertRawValue)(int)){
-	Sensor* sensorTmp = (Sensor*)malloc(sizeof(struct Sensor_s));
-	sensorTmp->pin=pin;
-	sensorTmp->type=type;
-	sensorTmp->convertRawValue = convertRawValue;   
-	return sensorTmp;
+  return value;
+}
+Sensor::~Sensor()
+{  
+  delete[] _type;
+      return;
 }
 
 int  convertTemperature(int sensorTmpVal){
