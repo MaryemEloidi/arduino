@@ -12,8 +12,9 @@ class Module{
   Module();
   void load(Sensor* sensor);
   void setChannel(Channel* c);
+  void displayList();
+  void update();
   ~Module();
-  private:
   Sensor** _listSensors;
   Channel* _channel;
   

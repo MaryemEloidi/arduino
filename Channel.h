@@ -4,22 +4,29 @@
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
+#include <SPI.h>
+#include <WiFi.h>
+#include <WiFiUDP.h>
 #include "Sensor.h"
 
+
+int const TAILLE = 2;
 class Channel{
   public:
-    Channel(char* _nom);
-    virtual void send(char** entete, Value* donnees)=0;
-  private:
-  char * _nom;
+    Channel();
+    virtual void send(String entete[TAILLE], Value donnees[TAILLE])=0;
 };
 class LogChannel : public Channel
 {
-  void send(char** entete, Value* donnees);
+  public:
+    LogChannel();
+    void send(String entete[TAILLE], Value donnees[TAILLE]);
 };
 
 class WifiChannel : public Channel
 {
-  void send(char** entete, Value* donnees);
+  public:
+    WifiChannel();
+    void send(String entete[TAILLE], Value donnees[TAILLE]);
 };
 #endif
