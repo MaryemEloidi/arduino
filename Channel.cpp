@@ -18,13 +18,15 @@ WifiChannel::WifiChannel(){
 void LogChannel::send(String entete[TAILLE], Value donnees[TAILLE]){
   
   for(int i=0; i<TAILLE; i++){
-  for(int j=0; j<TAILLE; j++){
      Serial.print( entete[i]);
-     Serial.print(" type :");
-     Serial.print(donnees[j].typeSensor);
-     Serial.print(" valeur:");
-     Serial.print(donnees[j].value);
-    }
+     Serial.print(" :");
+     Serial.print(donnees[i].value);
+       if(donnees[i].typeSensor = "temperature"){
+       Serial.print("*C\t");
+       }
+       else
+       Serial.print("%\t");
+    
   }
 }
 /* la méthode send de la classe WifiChannel*/

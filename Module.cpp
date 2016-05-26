@@ -32,17 +32,24 @@ void Module::displayList(){
   }
 }
 /* la fonction update qui lit chaque capteur dans le module, agrège les objets Value dans un tableau pour envoyer le tout via le canal de communication définit dans le module*/
-void Module::update(){
+void Module::updateM(){
   assert(_channel != NULL);
   Value* v;
+  String entete;
   int i=0;
   Value tabValueSensors [10];
+  String entetes[10];
   while(_listSensors[i]!= NULL){
+    Serial.print("dansboucle");
     v = _listSensors[i]->readSensor();
      tabValueSensors[i] = *v;
+    entete = _listSensors[i]->_type;
+    entetes[i] = entete;
     i++;
   }
-  _channel->send(NULL,tabValueSensors);
+
+  _channel->send(entetes,tabValueSensors);
+  
   
 }
 /* Destructeur */
